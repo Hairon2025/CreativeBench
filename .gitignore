@@ -1,0 +1,70 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Build and packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs and runtime files
+*.log
+logs/
+tmp/
+temp/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Local vector stores and generated indexes
+chroma_db/
+vector_store/
+faiss_index/
+*.faiss
+*.index
+
+# Model and experiment artifacts
+artifacts/
+outputs/
+reports/
+
+# Private or generated datasets
+data/raw/
+data/processed/
+data/private/
+
+# Streamlit secrets
+.streamlit/secrets.toml
+
+# Jupyter notebooks
+.ipynb_checkpoints/

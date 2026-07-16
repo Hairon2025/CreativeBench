@@ -1,0 +1,8 @@
+external_id,prompt_text,source_type,source_reference,language,scope
+dedup-001,"请续写下面的悬疑故事：午夜十二点，停用十年的电话突然响了。",synthetic,,zh-CN,creative_writing
+dedup-002,"  请续写下面的悬疑故事：午夜十二点，停用十年的电话突然响了。  ",synthetic,,zh-CN,creative_writing
+dedup-003,"请续写下面的悬疑故事，午夜十二点，停用十年的电话突然响了！",synthetic,,zh-CN,creative_writing
+dedup-004,"设计一位被逐出师门的年轻剑客，包括他的独门武功、江湖仇家和侠义原则。",synthetic,,zh-CN,creative_writing
+dedup-005,"创建一个遭师门驱逐的少年侠客人设，说明他擅长的武学、主要仇敌以及恪守的道义。",synthetic,,zh-CN,creative_writing
+dedup-006,"以唐代长安为背景，为一部群像小说设计三幕式情节。",synthetic,,zh-CN,creative_writing
+dedup-007,"把精灵王国庆典的文字改写得更有画面感，保留原有事件顺序。",synthetic,,zh-CN,creative_writing

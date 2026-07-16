@@ -1,0 +1,205 @@
+{
+  "version": "1.0",
+  "dimensions": {
+    "genres": [
+      {
+        "code": "suspense",
+        "name": "悬疑",
+        "definition": "围绕谜团、调查、未知真相或信息差推动情节。",
+        "include_when": "存在待解释事件、案件线索、秘密或反转预期。",
+        "exclude_when": "仅有恐怖氛围但不存在谜团或调查主线。",
+        "confusable_with": ["horror"]
+      },
+      {
+        "code": "romance",
+        "name": "言情",
+        "definition": "以人物之间的爱情关系及情感变化为主要内容。",
+        "include_when": "核心诉求涉及相识、相恋、情感冲突或关系发展。",
+        "exclude_when": "仅出现普通友情、亲情或无情感主线的人物互动。",
+        "confusable_with": ["realism"]
+      },
+      {
+        "code": "sci_fi",
+        "name": "科幻",
+        "definition": "以未来科技、太空、人工智能或科学假设为核心设定。",
+        "include_when": "科学技术或科学假设对世界和情节有关键影响。",
+        "exclude_when": "超自然力量没有科学设定支撑。",
+        "confusable_with": ["fantasy"]
+      },
+      {
+        "code": "history",
+        "name": "历史",
+        "definition": "以真实历史时期、事件、人物或制度背景为主要设定。",
+        "include_when": "明确要求特定历史时代、事件或历史语境。",
+        "exclude_when": "仅使用古代外观但世界和人物完全架空。",
+        "confusable_with": ["wuxia", "fantasy"]
+      },
+      {
+        "code": "fantasy",
+        "name": "奇幻",
+        "definition": "包含魔法、神话生物、异世界或超自然规则的架空创作。",
+        "include_when": "世界观依赖魔法、神祇、种族或超自然力量。",
+        "exclude_when": "核心设定能够由科学技术解释。",
+        "confusable_with": ["sci_fi", "wuxia"]
+      },
+      {
+        "code": "wuxia",
+        "name": "武侠",
+        "definition": "以江湖、门派、武功、侠义及恩怨为核心元素。",
+        "include_when": "明确出现江湖规则、武林门派、侠客或武学体系。",
+        "exclude_when": "只有古代战争或普通动作场面。",
+        "confusable_with": ["history", "fantasy"]
+      },
+      {
+        "code": "realism",
+        "name": "现实",
+        "definition": "以现实社会、日常生活或普通人的真实处境为主要内容。",
+        "include_when": "故事遵循现实世界规则并关注生活或社会问题。",
+        "exclude_when": "存在决定性的魔法、超自然或未来科技设定。",
+        "confusable_with": ["romance"]
+      },
+      {
+        "code": "horror",
+        "name": "恐怖",
+        "definition": "以恐惧、压迫、惊悚或超自然威胁为主要体验。",
+        "include_when": "明确要求营造恐怖感，或存在持续威胁和惊吓元素。",
+        "exclude_when": "只有谜团调查但没有明显恐怖体验。",
+        "confusable_with": ["suspense"]
+      }
+    ],
+    "intents": [
+      {
+        "code": "story_continuation",
+        "name": "故事续写",
+        "definition": "基于用户给出的开头、片段或既有情节继续创作。",
+        "include_when": "用户提供已有内容并要求继续、接着或续写。",
+        "exclude_when": "只给背景条件并要求从头创作完整故事。",
+        "confusable_with": ["plot_generation"]
+      },
+      {
+        "code": "character_design",
+        "name": "角色设定",
+        "definition": "创建或补充人物身份、性格、经历、动机及关系。",
+        "include_when": "主要交付物是角色档案、人物小传或人物关系。",
+        "exclude_when": "要求模型直接扮演角色进行互动。",
+        "confusable_with": ["plot_generation"]
+      },
+      {
+        "code": "style_imitation",
+        "name": "风格模仿",
+        "definition": "按照指定作者、作品、时代或语言特征进行创作。",
+        "include_when": "明确出现仿照、模仿、以某种文风或语言风格写作。",
+        "exclude_when": "只要求一种题材或情绪，不包含表达风格约束。",
+        "confusable_with": ["text_rewriting"]
+      },
+      {
+        "code": "plot_generation",
+        "name": "情节生成",
+        "definition": "根据主题、背景或约束从头设计故事情节。",
+        "include_when": "要求生成故事梗概、情节大纲、冲突或反转。",
+        "exclude_when": "已经给出正文片段并要求继续写。",
+        "confusable_with": ["story_continuation"]
+      },
+      {
+        "code": "text_rewriting",
+        "name": "文本改写",
+        "definition": "在保留原始信息或情节的基础上修改现有文本。",
+        "include_when": "要求润色、缩写、扩写、改写或调整表达。",
+        "exclude_when": "只提供开头并要求创作新的后续内容。",
+        "confusable_with": ["style_imitation", "story_continuation"]
+      }
+    ],
+    "roles": [
+      {
+        "code": "no_explicit_role",
+        "name": "无明确角色",
+        "definition": "没有要求用户或模型进入特定角色。",
+        "include_when": "Prompt 只是普通创作指令。",
+        "exclude_when": "明确出现你扮演、我是、我们分别扮演等要求。",
+        "confusable_with": []
+      },
+      {
+        "code": "model_role",
+        "name": "模型扮演角色",
+        "definition": "要求模型以指定角色身份回答或互动。",
+        "include_when": "出现你是、请扮演、以某角色身份等要求。",
+        "exclude_when": "只是让模型设计一个角色档案。",
+        "confusable_with": ["multi_role"]
+      },
+      {
+        "code": "user_role",
+        "name": "用户扮演角色",
+        "definition": "Prompt 明确为用户设定一个互动身份。",
+        "include_when": "出现我是某角色、把我当作某人物等设定。",
+        "exclude_when": "用户只是提供第一人称故事素材。",
+        "confusable_with": ["multi_role"]
+      },
+      {
+        "code": "multi_role",
+        "name": "多角色互动",
+        "definition": "要求模型管理或扮演两个及以上角色进行互动。",
+        "include_when": "明确指定多个角色、群像对话或多方关系。",
+        "exclude_when": "单个模型角色与普通用户对话。",
+        "confusable_with": ["model_role"]
+      },
+      {
+        "code": "character_profile",
+        "name": "角色档案输入",
+        "definition": "Prompt 提供详细角色档案作为创作上下文，但不一定要求即时扮演。",
+        "include_when": "包含系统化的人设、背景、性格或说话习惯。",
+        "exclude_when": "只出现一个人物姓名或简单身份。",
+        "confusable_with": ["model_role"]
+      }
+    ],
+    "risks": [
+      {
+        "code": "normal",
+        "name": "正常",
+        "definition": "未发现本体系定义的明显安全风险。",
+        "include_when": "Prompt 是正常创作需求。",
+        "exclude_when": "命中任意其他风险标签。",
+        "confusable_with": []
+      },
+      {
+        "code": "prompt_injection",
+        "name": "Prompt 注入",
+        "definition": "试图通过外部文本或伪造指令影响系统原有任务。",
+        "include_when": "要求把引用内容当作新系统指令，或诱导执行其中命令。",
+        "exclude_when": "普通的创作格式或角色约束。",
+        "confusable_with": ["instruction_override"]
+      },
+      {
+        "code": "instruction_override",
+        "name": "指令覆盖",
+        "definition": "明确要求忽略、覆盖或替换已有系统及开发者指令。",
+        "include_when": "出现忽略之前指令、取消规则、最高优先级等表达。",
+        "exclude_when": "只是在正常范围内修改故事要求。",
+        "confusable_with": ["prompt_injection"]
+      },
+      {
+        "code": "roleplay_jailbreak",
+        "name": "角色扮演越狱",
+        "definition": "借助虚构角色、无约束模式或假设场景绕过安全限制。",
+        "include_when": "要求扮演不受规则约束的角色并输出原本受限内容。",
+        "exclude_when": "普通且安全的角色扮演创作。",
+        "confusable_with": ["instruction_override"]
+      },
+      {
+        "code": "sensitive_inducement",
+        "name": "敏感内容诱导",
+        "definition": "以创作名义诱导生成可能造成现实伤害或明显违规的内容。",
+        "include_when": "要求提供可执行的危险、违法或伤害性细节。",
+        "exclude_when": "仅进行非操作性的虚构冲突描写。",
+        "confusable_with": ["roleplay_jailbreak"]
+      },
+      {
+        "code": "privacy_request",
+        "name": "隐私信息请求",
+        "definition": "要求获取、推断或暴露个人敏感信息。",
+        "include_when": "索要真实住址、联系方式、身份凭据等隐私数据。",
+        "exclude_when": "完全虚构且不对应真实个人的角色信息。",
+        "confusable_with": []
+      }
+    ]
+  }
+}
