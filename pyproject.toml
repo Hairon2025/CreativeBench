@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
     "pydantic>=2.10,<3.0",
     "pydantic-settings>=2.10,<3.0",
+    "sqlalchemy>=2.0.51,<3.0",
 ]
 
 [project.optional-dependencies]
@@ -21,11 +22,47 @@ dev = [
 semantic = [
     "sentence-transformers>=3.4,<6.0",
 ]
+knowledge = [
+    "qdrant-client>=1.15,<2.0",
+    "sentence-transformers>=3.4,<6.0",
+]
+rag = [
+    "langchain-core>=1.4.8,<2.0",
+    "qdrant-client>=1.15,<2.0",
+    "sentence-transformers>=3.4,<6.0",
+]
+classification = [
+    "langchain-core>=1.4.8,<2.0",
+    "langchain-openai>=1.1,<2.0",
+    "qdrant-client>=1.15,<2.0",
+    "sentence-transformers>=3.4,<6.0",
+]
+app = [
+    "fastapi>=0.116,<1.0",
+    "httpx>=0.28,<1.0",
+    "langchain-core>=1.4.8,<2.0",
+    "langchain-openai>=1.1,<2.0",
+    "qdrant-client>=1.15,<2.0",
+    "sentence-transformers>=3.4,<6.0",
+    "uvicorn>=0.35,<1.0",
+]
+demo = [
+    "httpx>=0.28,<1.0",
+    "streamlit>=1.48,<2.0",
+]
 
 [project.scripts]
 creativebench-validate = "creativebench.cli:main"
 creativebench-import = "creativebench.ingestion.cli:main"
 creativebench-deduplicate = "creativebench.deduplication.cli:main"
+creativebench-db = "creativebench.database.cli:main"
+creativebench-knowledge = "creativebench.knowledge.cli:main"
+creativebench-rag = "creativebench.rag.cli:main"
+creativebench-classify = "creativebench.classification.cli:main"
+creativebench-review = "creativebench.review.cli:main"
+creativebench-evaluate = "creativebench.evaluation.cli:main"
+creativebench-security = "creativebench.security.cli:main"
+creativebench-api = "creativebench.api.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

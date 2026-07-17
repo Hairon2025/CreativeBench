@@ -38,7 +38,7 @@ def deduplicate(
     *,
     near_max_distance: int = 8,
     semantic_provider: EmbeddingProvider | None = None,
-    semantic_threshold: float = 0.92,
+    semantic_threshold: float = 0.80,
 ) -> DeduplicationResult:
     """Keep first-seen representatives and classify later duplicates."""
 

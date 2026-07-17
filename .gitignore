@@ -49,6 +49,7 @@ temp/
 # Local vector stores and generated indexes
 chroma_db/
 vector_store/
+data/vector_store/
 faiss_index/
 *.faiss
 *.index

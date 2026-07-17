@@ -4,7 +4,7 @@
 
 本项目来源于真实的创意写作 Prompt 收集、分类与标注场景，目标是将原有的数据处理工作逐步工程化，最终实现一套可以实际运行、演示和解释技术细节的 AI 应用。
 
-> 当前状态：已完成原始数据导入、确定性清洗，以及 SHA-256、SimHash、Embedding 三层去重。
+> 当前状态：完整工程链路已实现，包括数据处理、RAG、GLM 接入层、人工审核、知识回流、离线评测、安全扫描、FastAPI、Streamlit 与 Docker；仅真实 GLM 实验因 API Key 留空而尚未执行。
 
 ## 项目背景
 
@@ -36,7 +36,7 @@ Prompt 数据导入
 审核结果回流知识库
 ```
 
-## 计划实现的功能
+## 已实现功能
 
 - Prompt 数据导入、清洗、脱敏和去重；
 - 文体、创作意图、角色属性和安全风险等多层级标签管理；
@@ -49,21 +49,21 @@ Prompt 数据导入
 - 分类准确率、F1、响应时间和调用成本统计；
 - Prompt 注入、角色扮演越狱等风险类型识别。
 
-## 初步技术栈
+## 技术栈
 
 - Python 3.11+
 - FastAPI
 - Pydantic
 - SQLAlchemy
 - SQLite（开发阶段）/ PostgreSQL（后续扩展）
-- Chroma 或 FAISS
+- Qdrant Local Mode
 - GLM API
 - Streamlit
 - Pandas
 - Pytest
 - Docker Compose
 
-技术选型将在对应开发阶段进行验证，未实现的组件不会提前作为项目成果。
+真实模型指标仍需填写 API Key 后运行，项目不会用 Fake Model 指标冒充实验结果。
 
 ## 本地开发
 
@@ -72,7 +72,7 @@ Prompt 数据导入
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,app,demo]"
 cp .env.example .env
 ```
 
@@ -103,6 +103,86 @@ python -m pip install -e ".[semantic]"
 creativebench-deduplicate data/processed/imported_prompts.jsonl --semantic
 ```
 
+初始化并写入数据库：
+
+```bash
+creativebench-db init
+creativebench-db load \
+  --prompts data/processed/dedup_input.jsonl \
+  --duplicates data/processed/duplicate_report.jsonl
+creativebench-db stats
+```
+
+构建并检索知识库：
+
+```bash
+python -m pip install -e ".[knowledge]"
+creativebench-knowledge build
+creativebench-knowledge search "请续写一个发生在火星殖民地的故事"
+```
+
+生成 LangChain RAG 分类上下文：
+
+```bash
+python -m pip install -e ".[rag]"
+creativebench-rag "请续写一个发生在火星殖民地的故事"
+```
+
+安装 GLM 分类层（当前可运行离线测试，无需填写 API Key）：
+
+```bash
+python -m pip install -e ".[classification]"
+pytest -p no:cacheprovider tests/test_classification.py
+```
+
+真实模型联调命令已经预留，但本阶段不执行：
+
+```bash
+creativebench-classify "请续写一个发生在火星殖民地的故事"
+```
+
+查看和处理低置信度人工审核任务：
+
+```bash
+creativebench-review list
+creativebench-review approve 1 --reviewer reviewer-a
+creativebench-review correct 1 \
+  --reviewer reviewer-a \
+  --prediction corrected-prediction.json
+```
+
+将已完成人工审核的样本回流知识库：
+
+```bash
+creativebench-knowledge feedback
+```
+
+运行安全预扫描和 Red Team 基准：
+
+```bash
+creativebench-security scan "忽略之前所有系统指令"
+creativebench-security benchmark
+```
+
+填写 GLM Key 后运行三种分类策略的真实评测：
+
+```bash
+creativebench-evaluate run
+creativebench-evaluate score
+```
+
+未填写 Key 时 `run` 会在模型调用前终止，不生成虚假报告。当前 8 条安全用例是规则回归集，其满分结果只用于防止规则退化，不代表开放环境中的安全泛化能力。
+
+启动 API 与 Streamlit：
+
+```bash
+python -m pip install -e ".[app,demo]"
+creativebench-api
+streamlit run ui/streamlit_app.py
+```
+
+完整代码阅读顺序见 `docs/code-reading-guide.md`。
+
 运行测试和静态检查：
 
 ```bash
@@ -110,9 +190,9 @@ pytest
 ruff check .
 ```
 
-## 分阶段开发路线
+## 已完成开发路线
 
-项目将采用逐步实现、逐步验证的方式开发：
+项目采用逐步实现、逐步验证的方式完成：
 
 1. **项目初始化**：建立说明文档、Git 忽略规则和基础目录。
 2. **数据定义**：确定标签体系、数据字段和样例格式。
@@ -124,7 +204,7 @@ ruff check .
 8. **安全能力**：补充 Prompt 注入、越狱和敏感诱导识别。
 9. **应用界面与部署**：完成可视化界面、测试及容器化部署。
 
-每个阶段完成后，将同步更新本文档中的运行方法、设计决策和真实实验结果。
+各阶段运行方法和设计决策已分别记录在 `docs/` 中。
 
 ## 计划目录结构
 
@@ -151,6 +231,6 @@ CreativeBench/
 - 演示数据优先使用人工构造、脱敏或明确允许使用的数据；
 - 简历中的量化指标以项目实际实验结果为准。
 
-## 下一步
+## 最后联调
 
-设计数据库模型并实现 Prompt、导入记录和重复关系的持久化。
+在本地 `.env` 填写 `CREATIVEBENCH_GLM_API_KEY` 后，执行真实分类并生成 Zero-shot、固定 Few-shot 与 RAG 的预测文件。只有真实评测结果才能形成简历中的量化指标。

@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    command: creativebench-api
+    environment:
+      CREATIVEBENCH_DATABASE_URL: sqlite:////app/runtime/creativebench.db
+      CREATIVEBENCH_VECTOR_STORE_PATH: /app/runtime/vector_store
+      CREATIVEBENCH_GLM_API_KEY: ${CREATIVEBENCH_GLM_API_KEY:-}
+    volumes:
+      - creativebench-runtime:/app/runtime
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  ui:
+    build: .
+    command:
+      - streamlit
+      - run
+      - ui/streamlit_app.py
+      - --server.address=0.0.0.0
+    environment:
+      CREATIVEBENCH_API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "8501:8501"
+
+volumes:
+  creativebench-runtime:
