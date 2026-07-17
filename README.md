@@ -181,7 +181,7 @@ creativebench-api
 streamlit run ui/streamlit_app.py
 ```
 
-完整代码阅读顺序见 `docs/code-reading-guide.md`。
+项目完整数据流、阶段输入输出和代码位置见 `docs/project-flow-walkthrough.md`；精简阅读顺序见 `docs/code-reading-guide.md`。
 
 运行测试和静态检查：
 
